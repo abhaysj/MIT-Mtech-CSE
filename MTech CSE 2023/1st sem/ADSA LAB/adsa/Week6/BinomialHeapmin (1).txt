@@ -1,0 +1,77 @@
+Certainly! Let's extend the amortized analysis to include the `FIND_MINIMUM_KEY` operation as well.
+
+### Amortized Analysis including `FIND_MINIMUM_KEY` Operation:
+
+#### Aggregate Analysis:
+
+1. **Node Creation (`CREATE_NODE`)**
+   - Cost: O(1) for creating a new node.
+
+2. **HEAP_INSERT**:
+   - Creating a node: O(1)
+   - Union operation: O(log n), where n is the number of nodes in the heap (worst-case union time for two Fibonacci heaps)
+   - Overall, the time complexity of HEAP_INSERT is O(log n).
+
+3. **HEAP_UNION**:
+   - Merging heaps: O(1) since it's a constant-time operation.
+
+4. **HEAP_MERGE**:
+   - Merging heaps: O(1) since it's a constant-time operation.
+
+5. **HEAP_LINK**:
+   - Linking nodes: O(1) since it's a constant-time operation.
+
+6. **DISPLAY**:
+   - Printing a node: O(1) for each node.
+
+7. **FIND_MINIMUM_KEY**:
+   - Traversing the sibling list: O(n), where n is the number of nodes in the sibling list.
+
+#### Accounting Method:
+
+In the accounting method, we assign an amortized cost to each operation, and the actual cost may be more or less than the amortized cost. We maintain a credit (or "potential") that can be used to pay for expensive operations.
+
+In this case, we can assign a cost of O(log n) for each `HEAP_INSERT` operation to account for the union operation. Additionally, we'll assign a cost of O(1) for each `FIND_MINIMUM_KEY` operation.
+
+#### Potential Method:
+
+In the potential method, we define a potential function that represents the "extra work" done during an operation. The potential function φ is assigned to the data structure state, and the change in potential (Δφ) represents the amortized cost.
+
+Let's define the potential function φ for this data structure:
+- φ(H) = 2 * the number of trees in the Binomial heap H + 1 * the number of nodes in the sibling list of the root node
+
+Using this potential function, we can show that the amortized cost of each `HEAP_INSERT` operation is O(log n), and the amortized cost of each `FIND_MINIMUM_KEY` operation is O(1).
+
+#### Updated `main` Function:
+
+```c
+int main()
+{
+    // ... (rest of the code)
+
+    // Assume n operations (insertions in this case)
+    int num_operations = log2(n); // Number of insertions
+
+    // Calculate amortized cost using different methods for HEAP_INSERT
+    double amortized_cost_aggregate_insert = (double)(num_operations * log2(num_operations));
+    double amortized_cost_amortized_insert = (double)num_operations * log2(num_operations);
+    double amortized_cost_potential_insert = (double)num_operations + (2 * num_operations);
+
+    // Calculate amortized cost using different methods for FIND_MINIMUM_KEY
+    double amortized_cost_aggregate_findmin = (double)n; // Traversing the sibling list
+    double amortized_cost_amortized_findmin = (double)n; // Traversing the sibling list
+    double amortized_cost_potential_findmin = (double)n; // Traversing the sibling list
+
+    printf("\nAmortized Cost (Aggregate Method) for INSERT: %.2f\n", amortized_cost_aggregate_insert);
+    printf("Amortized Cost (Amortized Method) for INSERT: %.2f\n", amortized_cost_amortized_insert);
+    printf("Amortized Cost (Potential Method) for INSERT: %.2f\n", amortized_cost_potential_insert);
+
+    printf("\nAmortized Cost (Aggregate Method) for FIND_MINIMUM_KEY: %.2f\n", amortized_cost_aggregate_findmin);
+    printf("Amortized Cost (Amortized Method) for FIND_MINIMUM_KEY: %.2f\n", amortized_cost_amortized_findmin);
+    printf("Amortized Cost (Potential Method) for FIND_MINIMUM_KEY: %.2f\n", amortized_cost_potential_findmin);
+
+    return 0;
+}
+```
+
+In this updated `main` function, we calculate the amortized cost using different methods for both `HEAP_INSERT` and `FIND_MINIMUM_KEY` operations. We consider the traversal of the sibling list in `FIND_MINIMUM_KEY` for the aggregate analysis.

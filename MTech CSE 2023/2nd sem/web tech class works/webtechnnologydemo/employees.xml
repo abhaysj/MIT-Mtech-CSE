@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Products>
+    <Product>
+        <ProductID>12345</ProductID>
+        <ProductName>Smartphone</ProductName>
+        <ProductPrice>399.99</ProductPrice>
+        <ProductCategory>Electronics</ProductCategory>
+        <ProductBrand>Smartphones Inc.</ProductBrand>
+        <ProductDescription>
+            This is a smartphone with the latest features and capabilities.
+        </ProductDescription>
+    </Product>
+
+    <Product>
+        <ProductID>67890</ProductID>
+        <ProductName>Waterproof Camera</ProductName>
+        <ProductPrice>249.99</ProductPrice>
+        <ProductCategory>Electronics</ProductCategory>
+        <ProductBrand>Cameras Corp.</ProductBrand>
+        <ProductDescription>
+            This waterproof camera is perfect for outdoor enthusiasts and photographers.
+        </ProductDescription>
+    </Product>
+
+    <!-- Add more products here -->
+
+</Products>

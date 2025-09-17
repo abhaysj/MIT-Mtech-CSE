@@ -1,0 +1,99 @@
+%%cu
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <cuda_runtime.h>
+
+#define RANGE_SIZE 100000
+
+_global_ void pigeonhole_sort_kernel(int* arr, int n, int min_val, int* sorted_arr) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int* pigeonholes = new int[RANGE_SIZE];
+
+    if (idx < n) {
+        int value = arr[idx] - min_val;
+        atomicAdd(&pigeonholes[value], 1);
+    }
+    __syncthreads();
+
+    if (idx < RANGE_SIZE) {
+        int count = pigeonholes[idx];
+        int value = idx + min_val;
+        for (int i = 0; i < count; ++i) {
+            sorted_arr[atomicAdd(&sorted_arr[0], 1)] = value;
+        }
+    }
+}
+
+double getCurrentTime() {
+    struct timespec currentTime;
+    clock_gettime(CLOCK_MONOTONIC, &currentTime);
+    return (double)currentTime.tv_sec * 1000.0 + (double)currentTime.tv_nsec / 1000000.0;
+}
+
+int main() {
+    int n = 0;
+    int min_val = 0;
+    int max_val = 0;
+    int range_size = RANGE_SIZE;
+    int* arr = NULL;
+    int* sorted_arr = NULL;
+
+    FILE* file = fopen("T10I4D100K.dat.txt", "r");
+    if (file == NULL) {
+        fprintf(stderr, "Could not open the file for reading.\n");
+        return 1;
+    }
+
+    printf("Numbers read from the file: ");
+    int capacity = 10;
+    int count = 0;
+
+    while (fscanf(file, "%d", &count) != EOF) {
+        printf("%d ", count);
+        if (count < min_val) min_val = count;
+        if (count > max_val) max_val = count;
+        count++;
+        if (count >= capacity) {
+            capacity *= 2;
+            arr = (int*)realloc(arr, capacity * sizeof(int));
+        }
+    }
+
+    fclose(file);
+    n = count;
+
+    int* d_arr;
+    int* d_sorted_arr;
+    cudaMalloc(&d_arr, n * sizeof(int));
+    cudaMalloc(&d_sorted_arr, n * sizeof(int));
+
+    cudaMemcpy(d_arr, arr, n * sizeof(int), cudaMemcpyHostToDevice);
+
+    int blockSize = 256;
+    int gridSize = (n + blockSize - 1) / blockSize;
+
+    double startTime = getCurrentTime();
+
+    pigeonhole_sort_kernel<<<gridSize, blockSize>>>(d_arr, n, min_val, d_sorted_arr);
+
+    double endTime = getCurrentTime();
+    double totalTime = endTime - startTime;
+
+    sorted_arr = (int*)malloc(n * sizeof(int));
+    cudaMemcpy(sorted_arr, d_sorted_arr, n * sizeof(int), cudaMemcpyDeviceToHost);
+
+    printf("\nSorted array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", sorted_arr[i]);
+    }
+
+    printf("\nTime taken by the sorting process: %.5f milliseconds\n", totalTime);
+
+    free(arr);
+    free(sorted_arr);
+    cudaFree(d_arr);
+    cudaFree(d_sorted_arr);
+
+    return 0;
+}

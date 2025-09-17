@@ -1,0 +1,54 @@
+Amortized analysis is a technique used to analyze the time complexity of a sequence of operations in a data structure, where some operations may be more expensive than others. It provides a way to calculate the average time or cost of operations over a series of operations, even when some operations are costly.
+
+In the given code, we'll analyze the time complexity of the `HEAP_INSERT` function using the aggregate, accounting, and potential methods. The time complexity of other functions like `HEAP_UNION`, `HEAP_MERGE`, `HEAP_LINK`, and `DISPLAY` will also be considered as they are invoked within `HEAP_INSERT`.
+
+Let's start with the aggregate analysis, where we analyze the total cost of a sequence of operations and then divide by the number of operations to obtain the average cost.
+
+### Aggregate Analysis:
+
+1. **Node Creation (`CREATE_NODE`)**
+   - Cost: O(1) for creating a new node.
+
+2. **HEAP_INSERT**:
+   - Creating a node: O(1)
+   - Union operation: O(log n), where n is the number of nodes in the heap (worst-case union time for two Fibonacci heaps)
+
+   Overall, the time complexity of HEAP_INSERT is O(log n).
+
+3. **HEAP_UNION**:
+   - Merging heaps: O(1) since it's a constant-time operation.
+
+4. **HEAP_MERGE**:
+   - Merging heaps: O(1) since it's a constant-time operation.
+
+5. **HEAP_LINK**:
+   - Linking nodes: O(1) since it's a constant-time operation.
+
+6. **DISPLAY**:
+   - Printing a node: O(1) for each node.
+
+### Accounting Method:
+
+In the accounting method, we assign an amortized cost to each operation, and the actual cost may be more or less than the amortized cost. We maintain a credit (or "potential") that can be used to pay for expensive operations.
+
+In this case, we can assign a cost of O(log n) for each `HEAP_INSERT` operation to account for the union operation.
+
+### Potential Method:
+
+In the potential method, we define a potential function that represents the "extra work" done during an operation. The potential function φ is assigned to the data structure state, and the change in potential (Δφ) represents the amortized cost.
+
+Let's define the potential function φ for this data structure:
+- φ(H) = 2 * the number of trees in the Binomial heap H
+	
+Using this potential function, we can show that the amortized cost of each `HEAP_INSERT` operation is O(log n), where n is the number of nodes in the heap.
+
+Let Δφ be the change in potential during a `HEAP_INSERT` operation. Initially, the heap is empty, so Δφ = 0. After the operation, one node is added, and one new tree is created. Thus, Δφ = 2.
+
+The amortized cost (A) of the `HEAP_INSERT` operation is given by:
+A = Actual cost + Δφ
+  = O(1) (actual cost) + 2 (Δφ)
+  = O(1) + 2
+  = O(1)
+
+Since the actual cost plus the change in potential is O(1), the amortized cost of each `HEAP_INSERT` operation is O(1), which implies that the amortized cost per operation is O(log n) when considering the `HEAP_UNION` operation. in this add minimum key operation
+

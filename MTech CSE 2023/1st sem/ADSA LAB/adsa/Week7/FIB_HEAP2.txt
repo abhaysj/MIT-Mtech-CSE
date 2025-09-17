@@ -1,0 +1,127 @@
+To calculate the amortized cost of the operations in the provided Fibonacci heap implementation, we can use the aggregate, accounting, and potential methods. We'll assign a potential to the heap data structure and update it during each operation to calculate the amortized cost.
+
+1. **Aggregate Method**:
+
+   The aggregate method calculates the amortized cost by maintaining a cumulative sum of the actual costs. For each operation, we will define the actual cost and add it to the cumulative sum.
+
+   - **Operation 1: Create Fibonacci Heap (make_fib_heap)**:
+     - Actual cost: O(1) (Heap initialization)
+     - Potential change: 0 (no change in potential)
+     - Amortized cost = Actual cost + Potential change = O(1)
+
+   - **Operation 2: Insert Nodes (insertion)**:
+     - Actual cost: O(1) (Inserting a node)
+     - Potential change: O(1) (Increase in the number of nodes)
+     - Amortized cost = Actual cost + Potential change = O(1) + O(1) = O(2)
+
+   - **Operation 3: Find Min (find_min_node)**:
+     - Actual cost: O(1) (Finding the minimum node)
+     - Potential change: 0 (no change in potential)
+     - Amortized cost = Actual cost + Potential change = O(1)
+
+   - **Operation 4: Union (unionHeap)**:
+     - Actual cost: O(n) (n is the number of nodes in the smaller heap)
+     - Potential change: 0 (no change in potential)
+     - Amortized cost = Actual cost + Potential change = O(n)
+
+   - **Operation 5: Extract Min (extract_min)**:
+     - Actual cost: O(n) (Consolidation, where n is the number of nodes)
+     - Potential change: O(n) (Decrease in the number of nodes)
+     - Amortized cost = Actual cost + Potential change = O(n) + O(n) = O(2n)
+
+   - **Operation 6: Decrease Key (decrease_key)**:
+     - Actual cost: O(1) (Updating a node)
+     - Potential change: 0 (no change in potential)
+     - Amortized cost = Actual cost + Potential change = O(1)
+
+   - **Operation 7: Delete Node (Delete_Node)**:
+     - Actual cost: O(n) (The actual cost depends on the number of nodes in the heap)
+     - Potential change: O(n) (Decrease in the number of nodes)
+     - Amortized cost = Actual cost + Potential change = O(n) + O(n) = O(2n)
+
+   - **Operation 8: Print Heap (print_heap)**:
+     - Actual cost: O(n) (The actual cost depends on the number of nodes in the heap)
+     - Potential change: 0 (no change in potential)
+     - Amortized cost = Actual cost + Potential change = O(n)
+
+2. **Accounting Method**:
+
+   The accounting method assigns credits to each operation based on its actual cost. The credits are used to pay for future operations. In this method, we distribute extra credits obtained from efficient operations to pay for inefficient operations.
+
+   - **Operation 1: Create Fibonacci Heap (make_fib_heap)**:
+     - Actual cost: O(1)
+     - Charge 2 credits.
+
+   - **Operation 2: Insert Nodes (insertion)**:
+     - Actual cost: O(1)
+     - Charge 2 credits.
+
+   - **Operation 3: Find Min (find_min_node)**:
+     - Actual cost: O(1)
+     - Charge 1 credit.
+
+   - **Operation 4: Union (unionHeap)**:
+     - Actual cost: O(n)
+     - Charge n credits.
+
+   - **Operation 5: Extract Min (extract_min)**:
+     - Actual cost: O(n)
+     - Charge 0 credits (We have extra credits from previous insertions).
+
+   - **Operation 6: Decrease Key (decrease_key)**:
+     - Actual cost: O(1)
+     - Charge 2 credits.
+
+   - **Operation 7: Delete Node (Delete_Node)**:
+     - Actual cost: O(n)
+     - Charge 0 credits (We have extra credits from previous insertions).
+
+   - **Operation 8: Print Heap (print_heap)**:
+     - Actual cost: O(n)
+     - Charge 1 credit.
+
+3. **Potential Method**:
+
+   In the potential method, we define a potential function Φ that represents the "unused" resources or potential energy of the data structure. The amortized cost is the actual cost plus the change in potential.
+
+   - Let Φ(H) be the potential function for the Fibonacci heap H. We can define the potential function as the number of nodes in the heap: Φ(H) = H->n.
+
+   - We can calculate the amortized cost for each operation as follows:
+     - Amortized cost = Actual cost + Φ(new) - Φ(old)
+
+     - **Operation 1: Create Fibonacci Heap (make_fib_heap)**:
+       - Actual cost: O(1)
+       - Φ(new) = 0, Φ(old) = 0
+       - Amortized cost = O(1)
+
+     - **Operation 2: Insert Nodes (insertion)**:
+       - Actual cost: O(1)
+       - Φ(new) = H->n + 1, Φ(old) = H->n
+       - Amortized cost = O(1) + (H->n + 1) - H->n = O(1)
+
+     - **Operation 3: Find Min (find_min_node)**:
+       - Actual cost: O(1)
+       - Φ(new) = H->n, Φ(old) = H->n
+       - Amortized cost = O(1)
+
+     - **Operation 4: Union (unionHeap)**:
+       - Actual cost: O(n)
+       - Φ(new) = Hnew->n + H->n, Φ(old) = H->n
+       - Amortized cost = O(n) + (Hnew->n + H->n) - H->n = O(n)
+
+     - **Operation 5: Extract Min (extract_min)**:
+       - Actual cost: O(n)
+       - Φ(new) = H->n - 1, Φ(old) = H->n
+       - Amortized cost = O(n) + (H->n - 1) - H->n = O(n)
+
+     - **Operation 6: Decrease Key (decrease_key)**:
+       - Actual cost: O(1)
+       - Φ(new) = H->n, Φ(old) = H->n
+       - Amortized cost = O(1)
+
+     - **Operation 7: Delete Node (Delete_Node)**:
+       - Actual cost: O(n)
+       - Φ(new) = H->n - 1, Φ(old) = H->n
+       - Amortized cost = O(n) + (H->n - 1) - H->n = O(n)
+
+     - **Operation 8: Print Heap (print

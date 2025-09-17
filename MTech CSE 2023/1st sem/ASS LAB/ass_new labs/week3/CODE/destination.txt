@@ -1,0 +1,2 @@
+we are making use of copy
+you can send the contents to another file.

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="utility.css">
+    <style>
+        p {
+            color: brown !important;
+        }
+    </style>
+    <script>
+        var count = 0;
+
+        function showMessage() {
+            count++;
+            var p = document.getElementById("message");
+            p.innerHTML = "Hello, world" + " " + count;
+        }
+
+        function confirmBox() {
+            if (confirm("Press a button")) {
+                var p = document.getElementById("message");
+                p.innerHTML = "You Pressed OK";
+            } else {
+                var p = document.getElementById("message");
+                p.innerHTML = "You pressed Cancel";
+            }
+        }
+
+        function promptBox() {
+            var person = prompt("Please enter your name");
+            if (person === null || person === "") {
+                var p = document.getElementById("message");
+                p.innerHTML = "User pressed Cancel";
+            } else {
+                var p = document.getElementById("message");
+                p.innerHTML = "User entered " + person;
+            }
+        }
+
+        function validate() {
+            var txtName = document.getElementById("txtName");
+            var p = document.getElementById("message");
+
+            if (txtName.value === "") {
+                p.innerHTML = "Name cannot be blank";
+                alert("Please enter a name.");
+                return false;
+            } else {
+                p.innerHTML = "Name entered: " + txtName.value;
+                return true;
+            }
+        }
+    </script>
+    <script src="/js_css/utility.js"></script>
+</head>
+<body>
+    <p id="message"></p>
+    <button onclick="promptBox()">Click Here</button>
+    
+    <form action="" onsubmit="return validate()">
+        <label>Name: <input type="text" id="txtName" /></label>
+        <input type="submit" value="SUBMIT" />
+    </form>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student List</title>
+    <!-- Add latest bootstrap css reference 5.3 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center bg-primary text-white">Students Name List</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <table class="table table-striped" id="studentsList">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentsListTbody">
+              <!-- Student entries will be added dynamically here -->
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">          
+          <form id="addStudentForm">
+            <div class="mb-3">
+              <label for="studentName" class="form-label">Student Name</label>
+              <input type="text" class="form-control" id="studentName" />
+            </div>
+            <div class="mb-3">
+              <label for="studentCourse" class="form-label">Course</label>
+              <select class="form-select" id="studentCourse">
+                <option value="b.tech">B.Tech</option>
+                <option value="m.tech">M.Tech</option>
+                <option value="phd">PhD</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Student</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="js/main.js"></script>
+    <!-- Add latest bootstrap js reference 5.3 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // JavaScript for adding students dynamically
+      document.getElementById("addStudentForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form submission
+        
+        // Get values from form inputs
+        var studentName = document.getElementById("studentName").value;
+        var studentCourse = document.getElementById("studentCourse").value;
+        
+        // Create a new row for the student
+        var newRow = document.createElement("tr");
+        newRow.innerHTML = `
+          <td>${studentName}</td>
+          <td>${studentCourse}</td>
+          <td>
+            <button class="btn btn-danger" onclick="deleteStudent(this)">Delete</button>
+          </td>
+        `;
+        
+        // Append the new row to the students list table body
+        document.getElementById("studentsListTbody").appendChild(newRow);
+        
+        // Clear the form inputs
+        document.getElementById("studentName").value = "";
+        document.getElementById("studentCourse").value = "b.tech"; // Reset course selection to default
+      });
+      
+      // Function to delete a student row
+      function deleteStudent(button) {
+        var row = button.parentNode.parentNode; // Get the parent row of the button
+        row.remove(); // Remove the row from the table
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+    "Products": {
+      "Product": [
+        {
+          "ProductID": 12345,
+          "ProductName": "Smartphone",
+          "ProductPrice": 399.99,
+          "ProductCategory": "Electronics",
+          "ProductBrand": "Smartphones Inc.",
+          "ProductDescription": "This is a smartphone with the latest features and capabilities."
+        },
+        {
+          "ProductID": 67890,
+          "ProductName": "Waterproof Camera",
+          "ProductPrice": 249.99,
+          "ProductCategory": "Electronics",
+          "ProductBrand": "Cameras Corp.",
+          "ProductDescription": "This waterproof camera is perfect for outdoor enthusiasts and photographers."
+        }
+      ]
+    }
+  }
