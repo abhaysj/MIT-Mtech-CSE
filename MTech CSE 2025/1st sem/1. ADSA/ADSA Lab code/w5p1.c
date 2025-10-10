@@ -63,10 +63,17 @@ void binomial_link(BinNode *y, BinNode *z) {
 BinNode* binomial_heap_merge(BinNode *h1, BinNode *h2) {
     if (!h1) return h2;
     if (!h2) return h1;
+<<<<<<< HEAD
     BinNode *head = NULL, *tail = NULL;
     BinNode *a = h1, *b = h2;
     while (a && b) {
         BinNode *take;
+=======
+    BinNode *head = NULL, *tail = NULL;//head - Pointer to the first node in the merged list., tail - Pointer to the last node so far in the merged list.
+    BinNode *a = h1, *b = h2;
+    while (a && b) {
+        BinNode *take;//A temporary pointer to the node we decide to "take" next from either a or b.
+>>>>>>> 9664bf4c97b1d25998d8bc48f8724cb3efd22f15
         if (a->degree <= b->degree) { take = a; a = a->sibling; }
         else { take = b; b = b->sibling; }
         if (!head) { head = tail = take; }
@@ -134,7 +141,11 @@ BinNode* binomial_heap_minimum(BinNode *H) {
    then UNION with remaining heap.
    Returns the extracted node (caller should free it when done).
 */
+<<<<<<< HEAD
 BinNode* binomial_heap_extract_min(BinNode **Hptr) {
+=======
+BinNode* binomial_heap_extract_min(BinNode **Hptr) {//By passing &H (BinNode **), the function can modify the original pointer to point to the new root after extraction.
+>>>>>>> 9664bf4c97b1d25998d8bc48f8724cb3efd22f15
     BinNode *H = *Hptr;
     if (!H) return NULL;
 
@@ -243,12 +254,22 @@ int main(void) {
     H = binomial_heap_insert(H, 5);
     H = binomial_heap_insert(H, 30);
     H = binomial_heap_insert(H, 2);
+<<<<<<< HEAD
     printf("After inserts:\n");
     print_heap(H);
     int n = 1;
     BinNode *node10 = binomial_heap_find(H, n);
     if(node10){printf("node with value %d found in the heap\n", node10->key);}
     else{printf("node with value %d was not found in the heap\n", n);}
+=======
+    H = binomial_heap_insert(H, 3);
+    H = binomial_heap_insert(H, 34);
+    H = binomial_heap_insert(H, 54);
+    //H = binomial_heap_insert(H, 2);
+    printf("After inserts:\n");
+    print_heap(H);
+
+>>>>>>> 9664bf4c97b1d25998d8bc48f8724cb3efd22f15
     /* find-min */
     BinNode *mn = binomial_heap_minimum(H);
     if (mn) printf("Minimum key = %d\n\n", mn->key);
@@ -283,3 +304,9 @@ int main(void) {
     free_heap(H);
     return 0;
 }
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 9664bf4c97b1d25998d8bc48f8724cb3efd22f15
